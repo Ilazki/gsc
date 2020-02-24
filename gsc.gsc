@@ -4,11 +4,6 @@
 //#open File.src
 //#open String.src
 
-// TODO:  reorganise code, possibly use gsc to organise.
-// TODO:  Make a README, including suggestions on how to use this
-// 			effectively.  Especially style suggestions like using
-//				Foo.* namespacing.
-
 PRAGMA = "//#"
 VERSION = "1.0.4"
 
@@ -43,8 +38,6 @@ end function
 
 // Take arguments: required input source and optional output path.
 // 	use current_path if output is omitted.
-// TODO:  Cleanup
-
 check_help = function(sw)
 	if sw.hasIndex("--help") or sw.hasIndex("-h") then 
 		print_help
