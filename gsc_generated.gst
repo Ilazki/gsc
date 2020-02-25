@@ -120,13 +120,8 @@ end function
 
 
 
-// TODO:  reorganise code, possibly use gsc to organise.
-// TODO:  Make a README, including suggestions on how to use this
-// 			effectively.  Especially style suggestions like using
-//				Foo.* namespacing.
-
 PRAGMA = "//#"
-VERSION = "1.0.4"
+VERSION = "1.0.5"
 
 print_help = function()
 	bold = @Text.bold
@@ -172,8 +167,6 @@ end function
 
 // Take arguments: required input source and optional output path.
 // 	use current_path if output is omitted.
-// TODO:  Cleanup
-
 check_help = function(sw)
 	if sw.hasIndex("--help") or sw.hasIndex("-h") then 
 		print_help
@@ -332,12 +325,20 @@ temp_file_fullpath = computer.File(temp_file).path
 temp_file_buildpath = temp_file_fullpath.split("/")[0:-1].join("/")
 
 File.delete(strip_extension(temp_file_fullpath))
-//err = shell.build(temp_file_fullpath, temp_file_buildpath)
 err = shell.build(temp_file_fullpath, temp_file_buildpath)
+
+// If something goes wrong, print error and leave gst file to debug.
+if err then 
+	print(err)
+	exit()
+end if
 
 // Cleanup
 File.delete(temp_file_fullpath)
 binfile = strip_extension(temp_file_fullpath)
 outfile = strip_extension(args.input.split("/")[-1])
 computer.File(binfile).move(args.output,outfile)
+
+
+
 

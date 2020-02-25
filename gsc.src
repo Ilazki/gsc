@@ -5,7 +5,7 @@
 //#open String.src
 
 PRAGMA = "//#"
-VERSION = "1.0.4"
+VERSION = "1.0.5"
 
 print_help = function()
 	bold = @Text.bold
@@ -195,6 +195,12 @@ temp_file_buildpath = temp_file_fullpath.split("/")[0:-1].join("/")
 File.delete(strip_extension(temp_file_fullpath))
 //err = shell.build(temp_file_fullpath, temp_file_buildpath)
 err = shell.build(temp_file_fullpath, temp_file_buildpath)
+
+// If something goes wrong, print error and leave gst file to debug.
+if err then
+	print(err)
+	exit()
+end if
 
 // Cleanup
 File.delete(temp_file_fullpath)
