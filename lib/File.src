@@ -16,9 +16,9 @@ end function
 
 File.write = function(f,s)
 	computer = get_shell.host_computer
-	pwd = computer.current_path
+	pwd = current_path
 	// Join and re-split the path to make touch happy
-	if f[0] == "/" then 
+	if f[0] == "/" then
 		file = f
 	else
 		file = pwd + "/" + f
@@ -26,7 +26,7 @@ File.write = function(f,s)
 	filename = file.split("/")[-1]
 	filepath = file.split("/")[0:-1].join("/")
 	err = computer.touch(filepath,filename)
-	if typeof(err) == "string" then Error.warn("touch: " + err + " (" + f + ")") 	
+	if typeof(err) == "string" then Error.warn("touch: " + err + " (" + f + ")")
 	file = computer.File(f)
 	file.set_content(s)
 end function
@@ -43,9 +43,3 @@ strip_extension = function (s)
 	if file.len == 1 then return s
 	return file[0:-1].join(".")
 end function
-
-
-
-
-
-
