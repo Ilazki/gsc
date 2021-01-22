@@ -24,18 +24,18 @@ error = function (s)
 end function
 
 get_file = function (s)
-	pwd = get_shell.host_computer.current_path
+	pwd = current_path
 	file = get_shell.host_computer.File(s)
 	if not file then error("File not found: " + s) and exit()
 	return file
 end function
 
 parse_argv = function ()
-	if not params then 
+	if not params then
 		print_help and exit()
 	else if (params[0] == "-h" or params[0] == "--help") then
 		print_help and exit()
-	end if	
+	end if
 	return [get_file(params[0]), params[1:]]
 end function
 
@@ -49,7 +49,7 @@ end function
 
 shell = get_shell
 computer = shell.host_computer
-pwd = computer.current_path
+pwd = current_path
 result = parse_argv
 file = result[0]
 args = result[1].join(" ")
@@ -65,8 +65,8 @@ if computer.File(bin) then error(bin + " exists, not compiling.") and exit()
 
 // Build file, abort on failure.  Default to /bin/gsc if exists.
 gsc = "/bin/gsc"
-if computer.File(gsc) then 
-	err = shell.launch("/bin/gsc", file.path + " " + pwd)
+if computer.File(gsc) then
+	err = shell.launch("/bin/gsc", "-I=" + pwd + "/lib " + file.path + " " + pwd)
 else
 	err = shell.build(file.path, pwd)
 end if
@@ -74,9 +74,6 @@ end if
 if err then error(err) and exit("")
 
 // Launch file and remove binary
+print("Launching...")
 shell.launch(bin,args)
 computer.File(bin).delete
-
-
-
-
