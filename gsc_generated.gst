@@ -129,8 +129,7 @@ print_help = function()
 	help.push(     "					"     + "search for libs.  Example: -I=lib,src")
 	help.push(     "					"     + "Current directory and 'lib' are searched")
 	help.push(     "					"     + "even if no include switch provided.")
-	print(help.join("
-"))
+	print(help.join("\n"))
 end function
 
 print_version = function()
@@ -211,8 +210,7 @@ end function
 read_pragmas = function (f)
 	print("including " + f)
 	file = File.find(f,args.include)
-	lines = file.get_content.split("
-")
+	lines = file.get_content.split("\n")
 	pragmas = []
 	// Accumulate pragmas, stopping on first non-pragma line for speed.
 	for l in lines
@@ -225,11 +223,9 @@ end function
 // Strip all pragmas from beginning of file and return rest of it.
 strip_pragmas = function(f)
 	file = File.find(f,args.include)
-	lines = file.get_content.split("
-")
+	lines = file.get_content.split("\n")
 	while 1
-		if not String.startswith(lines[0], PRAGMA) then return lines.join("
-")
+		if not String.startswith(lines[0], PRAGMA) then return lines.join("\n")
 		lines.pull()
 	end while
 	// File of only pragmas.  Return empty string.
